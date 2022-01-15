@@ -5,7 +5,9 @@ M.read_lines_from = function(file)
   local lines = {}
 
   for line in io.lines(file) do
-    lines[#lines + 1] = line
+    if line ~= '' then
+      lines[#lines + 1] = string.gsub(line, '^%s*(.-)%s*$', '%1')
+    end
   end
 
   return lines

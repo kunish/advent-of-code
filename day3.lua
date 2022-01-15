@@ -17,28 +17,8 @@ local function build_binary_vec(lines)
 end
 
 ---@param binary number[]
-local function reverse_binary(binary)
-  local reversed = {}
-
-  for i = #binary, 1, -1 do
-    reversed[#reversed + 1] = binary[i]
-  end
-
-  return reversed
-end
-
----@param binary number[]
 local function binary_to_decimal(binary)
-  local decimal = 0
-  local binary_reversed = reverse_binary(binary)
-
-  for i, bit in ipairs(binary_reversed) do
-    if bit == 1 then
-      decimal = decimal + math.floor(math.pow(2, i - 1))
-    end
-  end
-
-  return decimal
+  return tonumber(table.concat(binary, ''), 2)
 end
 
 ---@param binary_vec number[][]

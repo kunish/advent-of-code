@@ -2,7 +2,7 @@
 local function part1(lines)
   local ret = 0
 
-  for i = 1, #lines - 1, 1 do
+  for i = 1, #lines - 1 do
     local cur = tonumber(lines[i])
     local next = tonumber(lines[i + 1])
 
@@ -18,7 +18,7 @@ end
 local function part2(lines)
   local ret = 0
 
-  for i = 2, #lines - 1, 1 do
+  for i = 2, #lines - 1 do
     if not lines[i + 1] or not lines[i + 2] then
       break
     end
