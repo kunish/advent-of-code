@@ -1,2 +1,0 @@
-local runner = require('runner')
-runner.run_day(6, 'inputs/day6.txt')

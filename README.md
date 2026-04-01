@@ -47,7 +47,7 @@ lua complete_stars.lua 2021 2021 # 仅某一年
 
 - `years/<year>/day<N>.lua`：各年解题脚本。
 - `years/<year>/entry/`：可选的按天快捷入口（当前仅 2021 提供）。
-- `inputs/<year>/`：各年输入数据。
+- `inputs/<year>/`：各年输入数据（本地生成，已 `.gitignore`，勿提交）。
 
 ## 年份覆盖
 

@@ -2,3 +2,6 @@
 .env.*
 *.local
 .DS_Store
+
+# Puzzle inputs are per-account; do not commit (AoC terms).
+inputs/
