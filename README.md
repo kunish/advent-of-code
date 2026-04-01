@@ -33,12 +33,19 @@ lua run_all.lua 2021 2021
 
 ### 补星（登录态 + 本地解法）
 
-在官网 [Settings](https://adventofcode.com/settings) 取得 session 后：
+在官网 [Settings](https://adventofcode.com/settings) 取得 session 后（**不要**把 cookie 发到聊天或提交到 Git）：
 
 ```bash
 export AOC_SESSION='…'
 lua complete_stars.lua           # 默认 2015–2025
 lua complete_stars.lua 2021 2021 # 仅某一年
+```
+
+或在项目根目录创建已 gitignore 的 `.env`，内容为 `AOC_SESSION=…`，然后：
+
+```bash
+chmod +x complete_stars.sh   # 只需一次
+./complete_stars.sh 2021 2021
 ```
 
 脚本会拉取你账号下的日历 HTML，解析每天 0/1/2 星；对未满 2 星的题目运行 `lua run.lua`，把输出里的 `Part 1` / `Part 2` 提交到官网。**仅当本地解法正确且已有输入** 时才会成功；仓库里除 2021 外多为占位，无法自动补满历史所有星。请求之间会间隔约 1 秒，请避免短时间反复运行。
