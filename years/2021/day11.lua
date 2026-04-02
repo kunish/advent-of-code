@@ -1,3 +1,7 @@
+local day9_coord = day9_coord or function(x, y)
+  return string.format('%d,%d', x, y)
+end
+
 function day11_step(grid, width, height)
   -- step 1
   local flashed = {}

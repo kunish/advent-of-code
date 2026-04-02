@@ -1,26 +1,30 @@
 -- using a string-indexed table to store raster data is convenient for an
 -- "infinite" grid, but it's not very fast for lookups and updates
 
-function day20_9x9(image, x, y)
+local day9_coord = day9_coord or function(x, y)
+  return string.format('%d,%d', x, y)
+end
+
+function day20_9x9(image, x, y, default)
   local str = ''
   for i = y - 1, y + 1 do
     for j = x - 1, x + 1 do
-      str = str .. ((day20_imageval(image, j, i) == 1) and '1' or '0')
+      str = str .. ((day20_imageval(image, j, i, default) == 1) and '1' or '0')
     end
   end
   local result = tonumber(str, 2)
   return result
 end
 
-function day20_enhancexy(image, alg, x, y)
-  local index = day20_9x9(image, x, y)
+function day20_enhancexy(image, alg, x, y, default)
+  local index = day20_9x9(image, x, y, default)
   return alg[index + 1]
 end
 
-function day20_imageval(image, x, y)
+function day20_imageval(image, x, y, default)
   local coord = day9_coord(x, y)
   if image[coord] == nil then
-    return 0
+    return default or 0
   else
     return image[coord]
   end
@@ -31,7 +35,7 @@ function day20_coordsplit(coord)
   return tonumber(string.sub(coord, 0, comma - 1)), tonumber(string.sub(coord, comma + 1))
 end
 
-function day20_enhance(image, alg, padding)
+function day20_enhance(image, alg, padding, default)
   local image2 = {}
   local min_x = nil
   local max_x = nil
@@ -55,10 +59,11 @@ function day20_enhance(image, alg, padding)
 
   for y = min_y - padding, max_y + padding do
     for x = min_x - padding, max_x + padding do
-      image2[day9_coord(x, y)] = day20_enhancexy(image, alg, x, y)
+      image2[day9_coord(x, y)] = day20_enhancexy(image, alg, x, y, default)
     end
   end
-  return image2
+  local new_default = (default == 0) and alg[1] or alg[512]
+  return image2, new_default
 end
 
 function day20_print(image)
@@ -117,33 +122,21 @@ function day20(path)
   local part1 = 0
   local part2 = 0
 
-  -- enhance up to 10 pixels around the image area
-  local imageA = day20_enhance(image, alg, 10)
-  -- the void flips bits each enhancement step, so is off on enhancement 2
-  imageA = day20_enhance(imageA, alg, 10)
-  for i = -4, height + 4 do
-    for j = -4, width + 4 do
-      if imageA[day9_coord(j, i)] == 1 then
-        part1 = part1 + 1
+  local img = image
+  local default = 0
+  for step = 1, 50 do
+    img, default = day20_enhance(img, alg, 2, default)
+    if step == 2 then
+      for _, v in pairs(img) do
+        if v == 1 then part1 = part1 + 1 end
       end
     end
   end
+  for _, v in pairs(img) do
+    if v == 1 then part2 = part2 + 1 end
+  end
+
   print(string.format('Part 1: %d', part1))
-
-  -- padding for propagation waves moving in from the edge
-  local imageB = day20_enhance(image, alg, 102)
-  for i = 2, 50 do
-    imageB = day20_enhance(imageB, alg, 2)
-  end
-
-  for i = -55, height + 55 do
-    for j = -55, width + 55 do
-      if imageB[day9_coord(j, i)] == 1 then
-        part2 = part2 + 1
-      end
-    end
-  end
-
   print(string.format('Part 2: %d', part2))
 end
 

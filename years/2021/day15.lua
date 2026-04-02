@@ -1,3 +1,7 @@
+local day9_coord = day9_coord or function(x, y)
+  return string.format('%d,%d', x, y)
+end
+
 function day15_risk(grid, width, height, x, y)
   local x_div = math.floor((x - 1) / width)
   local x_mod = (x - 1) % width
@@ -10,7 +14,7 @@ end
 -- priority queue ordered by dist
 function day15_queue_insert(queue, val, dist)
   local i = 1
-  while i < #queue do
+  while i <= #queue do
     if queue[i].dist > dist then
       break
     end
@@ -27,29 +31,20 @@ function day15_dijkstra(grid, width, height, dest_x, dest_y)
   local queue = {}
   local dists = {}
   local start_coord = day9_coord(1, 1)
-  local dest_coord = day9_coord(dest_x, dest_y)
   dists[start_coord] = 0
   day15_queue_insert(queue, { 1, 1 }, 0)
 
-  local seen_count = 0
-
   while #queue > 0 do
-    local min_i = -1
-    local min_dist = -1
-
-    -- lowest dist node should be at front of queue
-    local coord = table.remove(queue, 1)
-
-    local x = coord.val[1]
-    local y = coord.val[2]
+    local entry = table.remove(queue, 1)
+    local x = entry.val[1]
+    local y = entry.val[2]
+    local d = entry.dist
     local xy = day9_coord(x, y)
-    if not seen[xy] then
-      seen[xy] = true
-      seen_count = seen_count + 1
 
-      local dist = dists[xy]
-      local node_dist = day15_risk(grid, width, height, x, y)
-      local best_dist = dist
+    if seen[xy] or d > dists[xy] then
+      -- already finalized, or stale queue entry
+    else
+      seen[xy] = true
 
       local neighbors = {}
       if x > 1 then
@@ -66,45 +61,22 @@ function day15_dijkstra(grid, width, height, dest_x, dest_y)
       end
 
       for i = 1, #neighbors do
-        local xy2 = day9_coord(neighbors[i][1], neighbors[i][2])
-        if
-          dists[xy2] ~= nil
-          and dists[xy2] + day15_risk(grid, width, height, neighbors[i][1], neighbors[i][2]) < best_dist
-        then
-          best_dist = dists[xy2] + day15_risk(grid, width, height, neighbors[i][1], neighbors[i][2])
-        end
-      end
-
-      if best_dist < dists[xy] then
-        dists[xy] = best_dist
-      end
-
-      -- update neighbors and add unseen ones to queue
-      -- if dist is changed, a new queue entry is added
-      -- even if a previous queue entry exists.
-      -- multiple queue entries will be ignored after the
-      -- first time the node is seen.
-
-      for i = 1, #neighbors do
-        local xy2 = day9_coord(neighbors[i][1], neighbors[i][2])
-        local dist_changed = false
-        if dists[xy2] == nil then
-          dists[xy2] = best_dist + node_dist
-          dist_changed = true
-        elseif dists[xy2] > best_dist + node_dist then
-          dists[xy2] = best_dist + node_dist
-          dist_changed = true
-        end
-        if not seen[xy2] and dist_changed then
-          day15_queue_insert(queue, { neighbors[i][1], neighbors[i][2] }, dists[xy2])
+        local nx = neighbors[i][1]
+        local ny = neighbors[i][2]
+        local xy2 = day9_coord(nx, ny)
+        local w = day15_risk(grid, width, height, nx, ny)
+        local nd = d + w
+        if dists[xy2] == nil or nd < dists[xy2] then
+          dists[xy2] = nd
+          if not seen[xy2] then
+            day15_queue_insert(queue, { nx, ny }, nd)
+          end
         end
       end
     end
   end
 
   return dists[day9_coord(dest_x, dest_y)]
-    + day15_risk(grid, width, height, dest_x, dest_y)
-    - day15_risk(grid, width, height, 1, 1)
 end
 
 function day15(path)

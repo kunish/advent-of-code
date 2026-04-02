@@ -86,10 +86,22 @@ function day13(path)
     part1 = part1 + 1
   end
 
-  local part2 = day13_print(grid2, x_min, x_max, y_min, y_max)
+  local ocr = require('ocr')
+  local part2_rows = {}
+  for y = y_min, y_max do
+    local row = {}
+    for x = x_min, x_max do
+      if grid2[string.format('%d,%d', x, y)] then
+        row[#row + 1] = '#'
+      else
+        row[#row + 1] = ' '
+      end
+    end
+    part2_rows[#part2_rows + 1] = table.concat(row)
+  end
 
   print(string.format('Part 1: %d', part1))
-  print(string.format('Part 2:\n%s', part2))
+  print(string.format('Part 2: %s', ocr.decode(part2_rows)))
 end
 
 return function(path)
