@@ -4,8 +4,12 @@ local ROUNDS = 101741582076661
 local function modmul(a, b)
   a = a % M
   b = b % M
-  if a < 0 then a = a + M end
-  if b < 0 then b = b + M end
+  if a < 0 then
+    a = a + M
+  end
+  if b < 0 then
+    b = b + M
+  end
   local result = 0
   while b > 0 do
     if b % 2 == 1 then
@@ -20,7 +24,9 @@ end
 local function modpow(base, exp)
   local result = 1
   base = base % M
-  if base < 0 then base = base + M end
+  if base < 0 then
+    base = base + M
+  end
   while exp > 0 do
     if exp % 2 == 1 then
       result = modmul(result, base)

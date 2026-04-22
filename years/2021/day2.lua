@@ -1,4 +1,4 @@
-function day2(path)
+local function day2(path)
   local lines = readLines(path)
 
   local x = 0

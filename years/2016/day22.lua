@@ -6,8 +6,7 @@ local function parse(path)
   local empty_x, empty_y
 
   for _, line in ipairs(lines) do
-    local x, y, sz, u, av =
-      line:match('node%-x(%d+)%-y(%d+)%s+(%d+)T%s+(%d+)T%s+(%d+)T')
+    local x, y, sz, u, av = line:match('node%-x(%d+)%-y(%d+)%s+(%d+)T%s+(%d+)T%s+(%d+)T')
     if x then
       x, y, sz, u, av = tonumber(x), tonumber(y), tonumber(sz), tonumber(u), tonumber(av)
       maxx = math.max(maxx, x)
@@ -49,7 +48,7 @@ local function bfs_to(w, h, by, maxa, sx, sy, tx, ty, block_left_into)
       return d
     end
     for i = 1, 4 do
-      local dx, dy, dir = dirs[i][1], dirs[i][2], dirs[i][3]
+      local dx, dy = dirs[i][1], dirs[i][2]
       local nx, ny = x + dx, y + dy
       if nx >= 0 and nx < w and ny >= 0 and ny < h then
         if dx == -1 and block_left_into and nx == block_left_into[1] and ny == block_left_into[2] then
@@ -82,7 +81,6 @@ return function(path)
         for yb = 0, h - 1 do
           for xb = 0, w - 1 do
             if xa ~= xb or ya ~= yb then
-              local ub = by[yb][xb].used
               local avail_b = by[yb][xb].avail
               if ua <= avail_b then
                 part1 = part1 + 1

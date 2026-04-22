@@ -1,4 +1,4 @@
-function day4_print(grid, used)
+local function day4_print(grid, used)
   for row = 0, 4 do
     print(grid[5 * row + 1], grid[5 * row + 2], grid[5 * row + 3], grid[5 * row + 4], grid[5 * row + 5])
   end
@@ -7,7 +7,7 @@ function day4_print(grid, used)
   end
 end
 
-function day4_winner(grid, used)
+local function day4_winner(grid, used)
   for row = 0, 4 do
     local count = 0
     for col = 1, 5 do
@@ -33,7 +33,7 @@ function day4_winner(grid, used)
   return false
 end
 
-function day4_mark(grid, used, number)
+local function day4_mark(grid, used, number)
   for i = 1, 25 do
     if grid[i] == number then
       used[i] = true
@@ -41,7 +41,7 @@ function day4_mark(grid, used, number)
   end
 end
 
-function day4_score(grid, used, number)
+local function day4_score(grid, used, number)
   local sum = 0
   for i = 1, 25 do
     if used[i] == false then
@@ -51,7 +51,7 @@ function day4_score(grid, used, number)
   return sum * number
 end
 
-function day4(path)
+local function day4(path)
   local lines = readLines(path)
 
   local numbers = {}

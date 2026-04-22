@@ -1,8 +1,8 @@
-function day9_coord(x, y)
+local function day9_coord(x, y)
   return string.format('%d,%d', x, y)
 end
 
-function day9(path)
+local function day9(path)
   local lines = readLines(path)
 
   local width = string.len(lines[1])

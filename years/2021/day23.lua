@@ -1,4 +1,4 @@
-function day23_charval(chr)
+local function day23_charval(chr)
   if chr == 'A' then
     return 1
   elseif chr == 'B' then
@@ -11,7 +11,7 @@ function day23_charval(chr)
   return 0
 end
 
-function day23_init_state(positions, part1)
+local function day23_init_state(positions, part1)
   local state = {}
   state.part1 = part1
   state.cost = 0
@@ -53,7 +53,7 @@ function day23_init_state(positions, part1)
   return state
 end
 
-function day23_copy_state(state)
+local function day23_copy_state(state)
   local state2 = {}
   state2.cost = state.cost
   state2.part1 = state.part1
@@ -64,7 +64,7 @@ function day23_copy_state(state)
   return state2
 end
 
-function day23_str_from_key(key)
+local function day23_str_from_key(key)
   local ret = ''
   for i = 1, 15 do
     local val = (key >> ((i - 1) * 3)) & 0x7
@@ -85,7 +85,7 @@ function day23_str_from_key(key)
   return ret
 end
 
-function day23_state_key(state)
+local function day23_state_key(state)
   local result = 0
   for i = 1, #state.positions do
     local val = state.positions[i]
@@ -94,7 +94,7 @@ function day23_state_key(state)
   return result
 end
 
-function day23_gen_key(str)
+local function day23_gen_key(str)
   local result = 0
   for i = 1, string.len(str) do
     local val = 0
@@ -112,7 +112,7 @@ function day23_gen_key(str)
   return result
 end
 
-function day23_coord_from_pos(pos)
+local function day23_coord_from_pos(pos)
   local row1x = { 1, 2, 4, 6, 8, 10, 11 }
   if pos < 8 then
     return row1x[pos], 1
@@ -121,7 +121,7 @@ function day23_coord_from_pos(pos)
   end
 end
 
-function day23_pos_from_coord(x, y)
+local function day23_pos_from_coord(x, y)
   local row1 = { 1, 2, -1, 3, -1, 4, -1, 5, -1, 6, 7 }
   if y == 1 then
     return row1[x]
@@ -130,7 +130,7 @@ function day23_pos_from_coord(x, y)
   end
 end
 
-function day23_move(startpos, endpos, state)
+local function day23_move(startpos, endpos, state)
   if state.positions[endpos] ~= 0 or state.positions[startpos] == 0 then
     return false
   end
@@ -139,7 +139,7 @@ function day23_move(startpos, endpos, state)
   return true
 end
 
-function day23_occupied(x, y, state)
+local function day23_occupied(x, y, state)
   if y == 1 and (x == 3 or x == 5 or x == 7 or x == 9) then
     return false
   end
@@ -148,7 +148,7 @@ end
 
 -- build a cache of all moves from all positions to all other positions
 -- for faster evaluation day23_can_reach
-function day23_movecache()
+local function day23_movecache()
   local movecache = {}
   for i = 1, 23 do
     movecache[i] = {}
@@ -194,7 +194,7 @@ function day23_movecache()
 end
 
 -- returns nil if unreachable, distance otherwise
-function day23_can_reach(i, j, state, movecache)
+local function day23_can_reach(i, j, state, movecache)
   local steps = 0
   if i == j then
     return nil
@@ -211,7 +211,7 @@ function day23_can_reach(i, j, state, movecache)
   return #movecache[i][j]
 end
 
-function day23_moves(index, state, movecache)
+local function day23_moves(index, state, movecache)
   local moves = {}
   local x, y = day23_coord_from_pos(index)
   local me = state.positions[index]
@@ -279,7 +279,7 @@ function day23_moves(index, state, movecache)
   return moves
 end
 
-function day23_solve(state, movecache, part1)
+local function day23_solve(state, movecache, part1)
   local finalkey = day23_gen_key('.......ABCDABCD')
   if not part1 then
     finalkey = day23_gen_key('.......ABCDABCDABCDABCD')
@@ -342,7 +342,7 @@ function day23_solve(state, movecache, part1)
   return states[finalkey]
 end
 
-function day23(path)
+local function day23(path)
   local lines = readLines(path)
 
   local positions = {

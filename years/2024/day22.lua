@@ -34,8 +34,7 @@ return function(path)
       end
       local seen = {}
       for i = 4, 2000 do
-        local key =
-          string.format('%d,%d,%d,%d', chg[i - 3] + 9, chg[i - 2] + 9, chg[i - 1] + 9, chg[i] + 9)
+        local key = string.format('%d,%d,%d,%d', chg[i - 3] + 9, chg[i - 2] + 9, chg[i - 1] + 9, chg[i] + 9)
         if not seen[key] then
           seen[key] = true
           total[key] = (total[key] or 0) + digits[i]

@@ -222,7 +222,10 @@ local function brute_force(vm, items, entry_dir, cp_buf)
           return best
         end
       end
-      if out:find('Hot Chocolate') or (room_title(out) and not out:find('Security Checkpoint') and not out:find('Pressure-Sensitive')) then
+      if
+        out:find('Hot Chocolate')
+        or (room_title(out) and not out:find('Security Checkpoint') and not out:find('Pressure-Sensitive'))
+      then
         send(vm, OPP[try_dirs[ti]] .. '\n')
         drain(vm)
       end

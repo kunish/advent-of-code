@@ -2,26 +2,19 @@ local SIZE = 1000
 local CELLS = SIZE * SIZE
 
 local function parse_line(line)
-  local x1, y1, x2, y2 =
-    line:match('^turn on (%d+),(%d+) through (%d+),(%d+)$')
+  local x1, y1, x2, y2 = line:match('^turn on (%d+),(%d+) through (%d+),(%d+)$')
   if x1 then
     return 'on', tonumber(x1), tonumber(y1), tonumber(x2), tonumber(y2)
   end
-  x1, y1, x2, y2 =
-    line:match('^turn off (%d+),(%d+) through (%d+),(%d+)$')
+  x1, y1, x2, y2 = line:match('^turn off (%d+),(%d+) through (%d+),(%d+)$')
   if x1 then
     return 'off', tonumber(x1), tonumber(y1), tonumber(x2), tonumber(y2)
   end
-  x1, y1, x2, y2 =
-    line:match('^toggle (%d+),(%d+) through (%d+),(%d+)$')
+  x1, y1, x2, y2 = line:match('^toggle (%d+),(%d+) through (%d+),(%d+)$')
   if x1 then
     return 'toggle', tonumber(x1), tonumber(y1), tonumber(x2), tonumber(y2)
   end
   return nil
-end
-
-local function idx(x, y)
-  return y * SIZE + x + 1
 end
 
 local function day6(path)

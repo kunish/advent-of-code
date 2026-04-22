@@ -22,7 +22,6 @@ end
 
 local function bfs_dist(grid, w, h, sx, sy, tx, ty)
   local start = idx1(sx, sy, w)
-  local goal = idx1(tx, ty, w)
   local head, tail = 1, 1
   local qx, qy, qd = { sx }, { sy }, { 0 }
   local seen = { [start] = true }

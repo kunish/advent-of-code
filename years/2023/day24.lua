@@ -4,7 +4,8 @@ local function parse(lines)
   while i <= #lines do
     local line = lines[i]
     if line ~= '' then
-      local px, py, pz, vx, vy, vz = line:match('^([%-%d]+),%s*([%-%d]+),%s*([%-%d]+)%s*@%s*([%-%d]+),%s*([%-%d]+),%s*([%-%d]+)')
+      local px, py, pz, vx, vy, vz =
+        line:match('^([%-%d]+),%s*([%-%d]+),%s*([%-%d]+)%s*@%s*([%-%d]+),%s*([%-%d]+),%s*([%-%d]+)')
       out[#out + 1] = {
         px = tonumber(px),
         py = tonumber(py),
@@ -109,7 +110,12 @@ local function part2_fixed(h)
         local p4 = intersect_shifted(with_delta(hail[4], dx, dy), h0)
         if p2 and p3 and p4 then
           local xa, ya = p2[1], p2[2]
-          if math.abs(xa - p3[1]) < 1e-2 and math.abs(xa - p4[1]) < 1e-2 and math.abs(ya - p3[2]) < 1e-2 and math.abs(ya - p4[2]) < 1e-2 then
+          if
+            math.abs(xa - p3[1]) < 1e-2
+            and math.abs(xa - p4[1]) < 1e-2
+            and math.abs(ya - p3[2]) < 1e-2
+            and math.abs(ya - p4[2]) < 1e-2
+          then
             local dz = -500
             while dz <= 500 do
               local z1 = predict_z(hail[2], p2[3], dz)

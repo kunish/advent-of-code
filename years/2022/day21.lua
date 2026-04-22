@@ -46,9 +46,13 @@ return function(path)
   print(string.format('Part 1: %d', eval('root', nil)))
 
   local function has_humn(name)
-    if name == 'humn' then return true end
+    if name == 'humn' then
+      return true
+    end
     local n = nodes[name]
-    if n.kind == 'num' then return false end
+    if n.kind == 'num' then
+      return false
+    end
     return has_humn(n.a) or has_humn(n.b)
   end
 
@@ -63,20 +67,32 @@ return function(path)
   end
 
   local function solve(name, t)
-    if name == 'humn' then return t end
+    if name == 'humn' then
+      return t
+    end
     local n = nodes[name]
     if has_humn(n.a) then
       local bv = eval(n.b, nil)
-      if n.op == '+' then return solve(n.a, t - bv)
-      elseif n.op == '-' then return solve(n.a, t + bv)
-      elseif n.op == '*' then return solve(n.a, t // bv)
-      else return solve(n.a, t * bv) end
+      if n.op == '+' then
+        return solve(n.a, t - bv)
+      elseif n.op == '-' then
+        return solve(n.a, t + bv)
+      elseif n.op == '*' then
+        return solve(n.a, t // bv)
+      else
+        return solve(n.a, t * bv)
+      end
     else
       local av = eval(n.a, nil)
-      if n.op == '+' then return solve(n.b, t - av)
-      elseif n.op == '-' then return solve(n.b, av - t)
-      elseif n.op == '*' then return solve(n.b, t // av)
-      else return solve(n.b, av // t) end
+      if n.op == '+' then
+        return solve(n.b, t - av)
+      elseif n.op == '-' then
+        return solve(n.b, av - t)
+      elseif n.op == '*' then
+        return solve(n.b, t // av)
+      else
+        return solve(n.b, av // t)
+      end
     end
   end
 

@@ -4,13 +4,7 @@ return function(path)
 
   for i = 1, #lines do
     local line = lines[i]
-    local id,
-      oo,
-      oc,
-      oob_o,
-      oob_c,
-      og_o,
-      og_ob = line:match(
+    local id, oo, oc, oob_o, oob_c, og_o, og_ob = line:match(
       '^Blueprint (%d+): Each ore robot costs (%d+) ore%. Each clay robot costs (%d+) ore%. Each obsidian robot costs (%d+) ore and (%d+) clay%. Each geode robot costs (%d+) ore and (%d+) obsidian%.$'
     )
     blueprints[#blueprints + 1] = {
@@ -33,18 +27,7 @@ return function(path)
       clay = math.min(clay, bp.obs_clay * 2)
       obs = math.min(obs, bp.geo_obs * 2)
 
-      local key = string.format(
-        '%d|%d|%d|%d|%d|%d|%d|%d|%d',
-        t,
-        ore,
-        clay,
-        obs,
-        geo,
-        r_ore,
-        r_clay,
-        r_obs,
-        r_geo
-      )
+      local key = string.format('%d|%d|%d|%d|%d|%d|%d|%d|%d', t, ore, clay, obs, geo, r_ore, r_clay, r_obs, r_geo)
       if memo[key] then
         return memo[key]
       end
@@ -115,17 +98,8 @@ return function(path)
       end
 
       if r_ore < max_ore and ore >= bp.ore_ore then
-        local v = dfs(
-          t - 1,
-          ore - bp.ore_ore + r_ore,
-          clay + r_clay,
-          obs + r_obs,
-          geo + r_geo,
-          r_ore + 1,
-          r_clay,
-          r_obs,
-          r_geo
-        )
+        local v =
+          dfs(t - 1, ore - bp.ore_ore + r_ore, clay + r_clay, obs + r_obs, geo + r_geo, r_ore + 1, r_clay, r_obs, r_geo)
         if v > mx then
           mx = v
         end

@@ -47,21 +47,6 @@ local function step1(grid)
 end
 
 --- Part 2: 0-based coords, center (2,2) is always empty (skip)
-local function add_bug(m, lev, x, y, dv)
-  if x == 2 and y == 2 then
-    return
-  end
-  local k = lev
-  local b = m[k] or 0
-  local idx = y * 5 + x
-  local bit = 1 << idx
-  if dv > 0 then
-    m[k] = b | bit
-  else
-    m[k] = b & ~bit
-  end
-end
-
 local function bug_at(m, lev, x, y)
   if x == 2 and y == 2 then
     return false

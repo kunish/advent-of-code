@@ -1,4 +1,4 @@
-function day25_state(r, d, width, height, grid)
+local function day25_state(r, d, width, height, grid)
   local ret = ''
   for y = 1, height do
     ret = ret .. table.concat(grid[y], '')
@@ -7,7 +7,7 @@ function day25_state(r, d, width, height, grid)
   return ret
 end
 
-function day25_step(r, d, width, height, grid)
+local function day25_step(r, d, width, height, grid)
   local r1 = {}
   local d1 = {}
 
@@ -76,7 +76,7 @@ function day25_step(r, d, width, height, grid)
   return r1, d1
 end
 
-function day25(path)
+local function day25(path)
   local lines = readLines(path)
 
   local r = {}

@@ -1,6 +1,7 @@
 local function parse_line(line)
   -- Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.
-  local name, speed, fly, rest = line:match('^(%w+) can fly (%d+) km/s for (%d+) seconds, but then must rest for (%d+) seconds%.')
+  local name, speed, fly, rest =
+    line:match('^(%w+) can fly (%d+) km/s for (%d+) seconds, but then must rest for (%d+) seconds%.')
   return name, tonumber(speed), tonumber(fly), tonumber(rest)
 end
 

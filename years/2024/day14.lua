@@ -15,8 +15,12 @@ return function(path)
       local r = robots[i]
       local x = (r[1] + n * r[3]) % W
       local y = (r[2] + n * r[4]) % H
-      if x < 0 then x = x + W end
-      if y < 0 then y = y + H end
+      if x < 0 then
+        x = x + W
+      end
+      if y < 0 then
+        y = y + H
+      end
       out[i] = { x, y }
     end
     return out

@@ -8,9 +8,7 @@ return function(path)
 
   for i = 1, #lines do
     local line = lines[i]
-    local sx, sy, bx, by = line:match(
-      'Sensor at x=(-?%d+), y=(-?%d+): closest beacon is at x=(-?%d+), y=(-?%d+)'
-    )
+    local sx, sy, bx, by = line:match('Sensor at x=(-?%d+), y=(-?%d+): closest beacon is at x=(-?%d+), y=(-?%d+)')
     sx, sy, bx, by = tonumber(sx), tonumber(sy), tonumber(bx), tonumber(by)
     sensors[#sensors + 1] = { sx, sy, math.abs(sx - bx) + math.abs(sy - by) }
     if by == row_target then

@@ -2,7 +2,7 @@ local day9_coord = day9_coord or function(x, y)
   return string.format('%d,%d', x, y)
 end
 
-function day11_step(grid, width, height)
+local function day11_step(grid, width, height)
   -- step 1
   local flashed = {}
   for x = 1, width do
@@ -75,7 +75,7 @@ function day11_step(grid, width, height)
   return flashtotal
 end
 
-function day11(path)
+local function day11(path)
   local lines = readLines(path)
 
   local width = string.len(lines[1])

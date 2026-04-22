@@ -93,10 +93,10 @@ local function day21(path)
         end
         local new_rows = parse_pat(rep)
         for r = 1, #new_rows do
-          local orow = br * (#new_rows) + r
+          local orow = br * #new_rows + r
           local row = new_rows[r]
           for c = 1, #row do
-            local ocol = bcol * (#new_rows) + c
+            local ocol = bcol * #new_rows + c
             out[orow][ocol] = row:sub(c, c)
           end
         end

@@ -4,10 +4,6 @@ local function day7(path)
   local sizes = {}
   local path_stack = {}
 
-  local function cwd_key()
-    return table.concat(path_stack, '/')
-  end
-
   local function ensure_dir(k)
     if sizes[k] == nil then
       sizes[k] = 0
@@ -28,7 +24,7 @@ local function day7(path)
         end
       end
     else
-      local sz, name = line:match('(%S+)%s+(%S+)')
+      local sz = line:match('(%S+)%s+%S+')
       if sz ~= 'dir' then
         local file_size = tonumber(sz)
         local k = ''

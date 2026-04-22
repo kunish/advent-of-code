@@ -74,7 +74,9 @@ local function day10(path)
       local dx, dy = ox - sx, oy - sy
       local nx, ny = norm(dx, dy)
       local ang = math.atan(nx, -ny)
-      if ang < 0 then ang = ang + 2 * math.pi end
+      if ang < 0 then
+        ang = ang + 2 * math.pi
+      end
       local rkey = nx .. ',' .. ny
       if rays[rkey] == nil then
         rays[rkey] = { ang = ang, pts = {} }

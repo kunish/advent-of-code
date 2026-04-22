@@ -1,4 +1,4 @@
-function day17_xmax(x_vel)
+local function day17_xmax(x_vel)
   local x_v = x_vel
   local x = 0
   local step = 0
@@ -15,7 +15,7 @@ function day17_xmax(x_vel)
 end
 
 -- return min and max x velocity that can reach target
-function day17_x_range(min_x, max_x)
+local function day17_x_range(min_x, max_x)
   local x_v = 1
   while day17_xmax(x_v) < min_x do
     x_v = x_v + 1
@@ -28,7 +28,7 @@ end
 -- with the inverse velocity. If that velocity exceeds min_y, it will
 -- overshoot the target on the next step. So -min_y is an upper bound for
 -- y_vel
-function day17_part1(min_x, max_x, min_y, max_y)
+local function day17_part1(min_x, max_x, min_y, max_y)
   local y_v0 = -min_y
   while y_v0 > 0 do
     local y = 0
@@ -55,7 +55,7 @@ function day17_part1(min_x, max_x, min_y, max_y)
   return -1, 0
 end
 
-function day17_part2(min_x, max_x, min_y, max_y, part1_y_v)
+local function day17_part2(min_x, max_x, min_y, max_y, part1_y_v)
   local min_x_v, max_x_v = day17_x_range(min_x, max_x)
   local success = {}
   for x_v0 = min_x_v, max_x_v do
@@ -84,7 +84,7 @@ function day17_part2(min_x, max_x, min_y, max_y, part1_y_v)
   return #success
 end
 
-function day17(path)
+local function day17(path)
   local lines = readLines(path)
 
   local lineA = string.sub(lines[1], string.len('target area: x=') + 1)

@@ -1,4 +1,4 @@
-function day18_string(node)
+local function day18_string(node)
   local ret = '['
   if node.left.value == nil then
     ret = ret .. day18_string(node.left)
@@ -15,14 +15,14 @@ function day18_string(node)
   return ret
 end
 
-function day18_magnitude(node)
+local function day18_magnitude(node)
   if node.value ~= nil then
     return node.value
   end
   return 3 * day18_magnitude(node.left) + 2 * day18_magnitude(node.right)
 end
 
-function day18_add(a, b)
+local function day18_add(a, b)
   local node = {}
   node.left = a
   node.right = b
@@ -32,7 +32,7 @@ function day18_add(a, b)
   return node
 end
 
-function day18_explode(node, depth)
+local function day18_explode(node, depth)
   if node.value ~= nil then
     return false
   end
@@ -92,7 +92,7 @@ function day18_explode(node, depth)
   --return false
 end
 
-function day18_split(node)
+local function day18_split(node)
   local split = false
   if node.left.value ~= nil then
     if node.left.value > 9 then
@@ -130,7 +130,7 @@ function day18_split(node)
   end
 end
 
-function day18_reduce(a)
+local function day18_reduce(a)
   local explode = day18_explode(a, 1)
   if explode then
     return true
@@ -139,7 +139,7 @@ function day18_reduce(a)
   return split
 end
 
-function day18_line(line)
+local function day18_line(line)
   local _, count = line:gsub(',', '')
   if count == 0 then
     local node = {}
@@ -176,7 +176,7 @@ function day18_line(line)
   return node
 end
 
-function day18(path)
+local function day18(path)
   local lines = readLines(path)
 
   local fishsum = day18_line(lines[1])

@@ -1,4 +1,4 @@
-function day7_gauss(n)
+local function day7_gauss(n)
   if n == 0 then
     return 0
   elseif n == 1 then
@@ -7,7 +7,7 @@ function day7_gauss(n)
   return (n * (n + 1)) / 2
 end
 
-function day7(path)
+local function day7(path)
   local lines = readLines(path)
 
   local crabs = {}

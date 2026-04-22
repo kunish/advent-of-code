@@ -50,7 +50,7 @@ return function(path)
 
   local function combinations(n, k)
     if k == 0 then
-      return {{}}
+      return { {} }
     end
     if k > n then
       return {}

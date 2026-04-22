@@ -5,7 +5,7 @@ local day9_coord = day9_coord or function(x, y)
   return string.format('%d,%d', x, y)
 end
 
-function day20_9x9(image, x, y, default)
+local function day20_9x9(image, x, y, default)
   local str = ''
   for i = y - 1, y + 1 do
     for j = x - 1, x + 1 do
@@ -16,12 +16,12 @@ function day20_9x9(image, x, y, default)
   return result
 end
 
-function day20_enhancexy(image, alg, x, y, default)
+local function day20_enhancexy(image, alg, x, y, default)
   local index = day20_9x9(image, x, y, default)
   return alg[index + 1]
 end
 
-function day20_imageval(image, x, y, default)
+local function day20_imageval(image, x, y, default)
   local coord = day9_coord(x, y)
   if image[coord] == nil then
     return default or 0
@@ -30,12 +30,12 @@ function day20_imageval(image, x, y, default)
   end
 end
 
-function day20_coordsplit(coord)
+local function day20_coordsplit(coord)
   local comma = string.find(coord, ',')
   return tonumber(string.sub(coord, 0, comma - 1)), tonumber(string.sub(coord, comma + 1))
 end
 
-function day20_enhance(image, alg, padding, default)
+local function day20_enhance(image, alg, padding, default)
   local image2 = {}
   local min_x = nil
   local max_x = nil
@@ -66,7 +66,7 @@ function day20_enhance(image, alg, padding, default)
   return image2, new_default
 end
 
-function day20_print(image)
+local function day20_print(image)
   local min_x = nil
   local max_x = nil
   local min_y = nil
@@ -99,7 +99,7 @@ function day20_print(image)
   end
 end
 
-function day20(path)
+local function day20(path)
   local lines = readLines(path)
 
   local alg = {}
@@ -128,12 +128,16 @@ function day20(path)
     img, default = day20_enhance(img, alg, 2, default)
     if step == 2 then
       for _, v in pairs(img) do
-        if v == 1 then part1 = part1 + 1 end
+        if v == 1 then
+          part1 = part1 + 1
+        end
       end
     end
   end
   for _, v in pairs(img) do
-    if v == 1 then part2 = part2 + 1 end
+    if v == 1 then
+      part2 = part2 + 1
+    end
   end
 
   print(string.format('Part 1: %d', part1))

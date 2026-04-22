@@ -1,4 +1,4 @@
-function day13_print(grid, x_min, x_max, y_min, y_max)
+local function day13_print(grid, x_min, x_max, y_min, y_max)
   local result = ''
   for y = y_min, y_max do
     for x = x_min, x_max do
@@ -13,7 +13,7 @@ function day13_print(grid, x_min, x_max, y_min, y_max)
   return result
 end
 
-function day13(path)
+local function day13(path)
   local lines = readLines(path)
 
   local dots = {}

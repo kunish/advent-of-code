@@ -28,7 +28,7 @@ return function(path)
     if token ~= 'x' then
       local id = tonumber(token)
       if id then
-        local a = (-idx) % id
+        local a = -idx % id
         if a < 0 then
           a = a + id
         end

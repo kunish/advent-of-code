@@ -28,10 +28,13 @@ local function parse_mods(s)
 end
 
 local function parse_line(line, army)
-  local units, hp, mods, atk, atype, ini =
-    line:match('^(%d+) units each with (%d+) hit points %((.+)%) with an attack that does (%d+) (%a+) damage at initiative (%d+)')
+  local units, hp, mods, atk, atype, ini = line:match(
+    '^(%d+) units each with (%d+) hit points %((.+)%) with an attack that does (%d+) (%a+) damage at initiative (%d+)'
+  )
   if not units then
-    units, hp, atk, atype, ini = line:match('^(%d+) units each with (%d+) hit points with an attack that does (%d+) (%a+) damage at initiative (%d+)')
+    units, hp, atk, atype, ini = line:match(
+      '^(%d+) units each with (%d+) hit points with an attack that does (%d+) (%a+) damage at initiative (%d+)'
+    )
     mods = ''
   end
   if not units then

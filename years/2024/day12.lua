@@ -29,7 +29,7 @@ return function(path)
             visited[k] = true
             cells[#cells + 1] = { r, c }
             cellset[k] = true
-            for _, d in ipairs { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } } do
+            for _, d in ipairs({ { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } }) do
               stack[#stack + 1] = { r + d[1], c + d[2] }
             end
           end
@@ -39,7 +39,7 @@ return function(path)
         local perim = 0
         for _, p in ipairs(cells) do
           local r, c = p[1], p[2]
-          for _, d in ipairs { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } } do
+          for _, d in ipairs({ { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } }) do
             local k2 = (r + d[1]) .. ',' .. (c + d[2])
             if not cellset[k2] then
               perim = perim + 1

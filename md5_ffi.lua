@@ -1,8 +1,8 @@
 local ffi = require('ffi')
 
-ffi.cdef[[
+ffi.cdef([[
 unsigned char *MD5(const unsigned char *d, unsigned long n, unsigned char *md);
-]]
+]])
 
 local crypto = ffi.load('crypto')
 local buf = ffi.new('unsigned char[16]')

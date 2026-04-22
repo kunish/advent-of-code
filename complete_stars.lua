@@ -64,7 +64,7 @@ local function http_post_answer(url, session, level, answer)
     os.remove(tmp_out)
     return nil
   end
-  f = io.open(tmp_out, 'r')
+  local f = io.open(tmp_out, 'r')
   local resp = f:read('*a')
   f:close()
   os.remove(tmp_out)
@@ -141,7 +141,9 @@ local function submit_answer(post_url, session, level, answer, year, day)
         io.stderr:write(string.format('  RATE-LIMITED %d/%d part %s – waiting %ds…\n', year, day, level, wait))
         sleep(wait)
       else
-        io.stderr:write(string.format('  RATE-LIMITED %d/%d part %s – skip (wait %ds too long)\n', year, day, level, wait))
+        io.stderr:write(
+          string.format('  RATE-LIMITED %d/%d part %s – skip (wait %ds too long)\n', year, day, level, wait)
+        )
         return 'rate_limited'
       end
     else
@@ -178,7 +180,9 @@ for year = from_year, to_year do
         -- Already complete
       else
         local lua_cmd = 'lua'
-        if year == 2016 and day == 5 then lua_cmd = 'luajit' end
+        if year == 2016 and day == 5 then
+          lua_cmd = 'luajit'
+        end
         local p = io.popen(string.format('timeout 120 %s run.lua %d %d 2>&1', lua_cmd, year, day), 'r')
         local out = p:read('*a')
         p:close()

@@ -1,6 +1,6 @@
 -- with a hint from reddit, improved day 14 that just tracks letter pair frequency counts rather than attempting to represent the expanded string on intermediate steps
 
-function day14_increment(tbl, key, amt)
+local function day14_increment(tbl, key, amt)
   if tbl[key] == nil then
     tbl[key] = amt
   else
@@ -8,7 +8,7 @@ function day14_increment(tbl, key, amt)
   end
 end
 
-function day14_expand(pair_counts, inserts)
+local function day14_expand(pair_counts, inserts)
   local new_counts = {}
   for k, v in pairs(pair_counts) do
     if inserts[k] ~= nil then
@@ -23,7 +23,7 @@ function day14_expand(pair_counts, inserts)
   return new_counts
 end
 
-function day14(path)
+local function day14(path)
   local lines = readLines(path)
 
   local template = lines[1]

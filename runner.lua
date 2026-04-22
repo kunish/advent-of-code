@@ -25,7 +25,7 @@ local function ensure_input(year, day, path)
   return ok == true or code == 0
 end
 
-function readLines(path)
+local function readLines(path)
   local lines = {}
   local i = 1
   for line in io.lines(path) do
@@ -43,7 +43,8 @@ local function load_solver(year, day)
   end
   file:close()
 
-  local chunk = assert(loadfile(solver_path))
+  local env = setmetatable({ readLines = readLines }, { __index = _G })
+  local chunk = assert(loadfile(solver_path, 't', env))
   return chunk(), solver_path
 end
 

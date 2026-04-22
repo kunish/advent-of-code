@@ -1,4 +1,4 @@
-function day24_reg_get(key, reg)
+local function day24_reg_get(key, reg)
   if key == 'w' then
     return reg.w
   elseif key == 'x' then
@@ -11,7 +11,7 @@ function day24_reg_get(key, reg)
   return nil
 end
 
-function day24_reg_set(key, val, reg)
+local function day24_reg_set(key, val, reg)
   if key == 'w' then
     reg.w = val
   elseif key == 'x' then
@@ -24,7 +24,7 @@ function day24_reg_set(key, val, reg)
   return
 end
 
-function day24_trunc(val)
+local function day24_trunc(val)
   if val < 0 then
     return math.ceil(val)
   elseif val > 0 then
@@ -34,7 +34,7 @@ function day24_trunc(val)
   end
 end
 
-function day24_input_str(input)
+local function day24_input_str(input)
   local ret = ''
   for i = 1, #input do
     ret = ret .. tostring(input[i])
@@ -42,7 +42,7 @@ function day24_input_str(input)
   return ret
 end
 
-function day24_run(prog, inp, registers, limit, start, input_index)
+local function day24_run(prog, inp, registers, limit, start, input_index)
   local inp_index = input_index == nil and 1 or input_index
 
   for i = start ~= nil and start or 1, #prog do
@@ -96,7 +96,7 @@ function day24_run(prog, inp, registers, limit, start, input_index)
   end
 end
 
-function day24_inst(line)
+local function day24_inst(line)
   local inst = {}
   inst.op = string.sub(line, 1, 3)
   inst.a = string.sub(line, 5, 5)
@@ -132,7 +132,7 @@ appear earlier in the input string than pop inputs, this lets us determine the
 highest or lowest valid model number.
 --]]
 
-function day24_solve(instructions)
+local function day24_solve(instructions)
   local params = {}
   local digits = {}
   local stack = {}
@@ -172,7 +172,7 @@ function day24_solve(instructions)
   return day24_input_str(input_hi), day24_input_str(input_lo)
 end
 
-function day24(path)
+local function day24(path)
   local lines = readLines(path)
 
   local instructions = {}

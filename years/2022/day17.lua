@@ -10,26 +10,6 @@ return function(path)
     { { 0, 0 }, { 1, 0 }, { 0, 1 }, { 1, 1 } },
   }
 
-  local function rock_width(cells)
-    local mx = 0
-    for i = 1, #cells do
-      if cells[i][1] > mx then
-        mx = cells[i][1]
-      end
-    end
-    return mx + 1
-  end
-
-  local function rock_height(cells)
-    local mx = 0
-    for i = 1, #cells do
-      if cells[i][2] > mx then
-        mx = cells[i][2]
-      end
-    end
-    return mx + 1
-  end
-
   local function collides(occupied, ox, oy, cells)
     for i = 1, #cells do
       local x = ox + cells[i][1]

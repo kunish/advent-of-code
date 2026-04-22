@@ -34,7 +34,7 @@ local function parse_ops(lines)
   local ops = {}
   for _, line in ipairs(lines) do
     line = line:gsub('%s+$', '')
-    local a, b, c = line:match('^swap position (%d+) with position (%d+)$')
+    local a, b = line:match('^swap position (%d+) with position (%d+)$')
     if a then
       ops[#ops + 1] = { 'sp', tonumber(a) + 1, tonumber(b) + 1 }
     else

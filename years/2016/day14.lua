@@ -6,10 +6,10 @@ do
   local ffi = ffi_ok and ffi_or_err or nil
   local lib
   if jit_on and ffi then
-    ffi.cdef [[
+    ffi.cdef([[
       typedef unsigned long CC_LONG;
       unsigned char *CC_MD5(const void *data, CC_LONG len, unsigned char *md);
-    ]]
+    ]])
     for _, p in ipairs({
       '/usr/lib/system/libcommonCrypto.dylib',
     }) do

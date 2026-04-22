@@ -127,10 +127,6 @@ local function day23(path)
   local function push_box(x1, y1, z1, x2, y2, z2)
     local ub = max_bots_reachable(bots, x1, y1, z1, x2, y2, z2)
     local d0 = dist_origin_to_box(x1, y1, z1, x2, y2, z2)
-    local sx = x2 - x1 + 1
-    local sy = y2 - y1 + 1
-    local sz = z2 - z1 + 1
-    local size = math.max(sx, sy, sz)
     local prio = -ub * 1000000000000 + d0
     heap_push(heap, {
       prio = prio,

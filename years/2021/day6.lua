@@ -1,4 +1,4 @@
-function day6_part1(fish)
+local function day6_part1(fish)
   local fishnum = #fish
   for i = 1, fishnum do
     fish[i] = fish[i] - 1
@@ -9,7 +9,7 @@ function day6_part1(fish)
   end
 end
 
-function day6_part2(bins)
+local function day6_part2(bins)
   local new = bins[0]
   for i = 0, 7 do
     bins[i] = bins[i + 1]
@@ -18,7 +18,7 @@ function day6_part2(bins)
   bins[8] = new
 end
 
-function day6(path)
+local function day6(path)
   local lines = readLines(path)
 
   local fish1 = {}

@@ -1,8 +1,8 @@
-function table.day12_clone(org)
+local function day12_clone(org)
   return { table.unpack(org) }
 end
 
-function day12_statekey(statekey, append)
+local function day12_statekey(statekey, append)
   if string.len(statekey) > 0 then
     return statekey .. ',' .. append
   else
@@ -10,7 +10,7 @@ function day12_statekey(statekey, append)
   end
 end
 
-function day12_instate(state, node)
+local function day12_instate(state, node)
   for i = 1, #state do
     if state[i] == node then
       return true
@@ -20,14 +20,14 @@ function day12_instate(state, node)
 end
 
 -- very crude check but works for the solution
-function day12_islower(str)
+local function day12_islower(str)
   if string.byte(string.sub(str, 1, 1)) >= 97 then
     return true
   end
   return false
 end
 
-function day12_explore(state, statekey, nodes, graph, seen)
+local function day12_explore(state, statekey, nodes, graph, seen)
   if seen[statekey] then
     return false
   end
@@ -43,7 +43,7 @@ function day12_explore(state, statekey, nodes, graph, seen)
           (not day12_islower(nodes[i]) and not seen[day12_statekey(statekey, nodes[i])])
           or (day12_islower(nodes[i]) and not day12_instate(state, nodes[i]))
         then
-          local newstate = table.day12_clone(state)
+          local newstate = day12_clone(state)
           table.insert(newstate, nodes[i])
           day12_explore(newstate, day12_statekey(statekey, nodes[i]), nodes, graph, seen)
         end
@@ -53,7 +53,7 @@ function day12_explore(state, statekey, nodes, graph, seen)
   return true
 end
 
-function day12_explore2(state, statekey, nodes, graph, seen, revisited)
+local function day12_explore2(state, statekey, nodes, graph, seen, revisited)
   if seen[statekey] then
     return false
   end
@@ -66,17 +66,17 @@ function day12_explore2(state, statekey, nodes, graph, seen, revisited)
     if nodes[i] ~= state[#state] then
       if graph[day12_key(state[#state], nodes[i])] then
         if not day12_islower(nodes[i]) then
-          local newstate = table.day12_clone(state)
+          local newstate = day12_clone(state)
           table.insert(newstate, nodes[i])
           day12_explore2(newstate, day12_statekey(statekey, nodes[i]), nodes, graph, seen, revisited)
         elseif day12_islower(nodes[i]) then
           if not day12_instate(state, nodes[i]) then
-            local newstate = table.day12_clone(state)
+            local newstate = day12_clone(state)
             table.insert(newstate, nodes[i])
             day12_explore2(newstate, day12_statekey(statekey, nodes[i]), nodes, graph, seen, revisited)
           else
             if revisited == nil and nodes[i] ~= 'start' and nodes[i] ~= 'end' then
-              local newstate = table.day12_clone(state)
+              local newstate = day12_clone(state)
               table.insert(newstate, nodes[i])
               day12_explore2(newstate, day12_statekey(statekey, nodes[i]), nodes, graph, seen, nodes[i])
             end
@@ -88,11 +88,11 @@ function day12_explore2(state, statekey, nodes, graph, seen, revisited)
   return true
 end
 
-function day12_key(a, b)
+local function day12_key(a, b)
   return string.format('%s-%s', a, b)
 end
 
-function day12(path)
+local function day12(path)
   local lines = readLines(path)
 
   local graph = {}

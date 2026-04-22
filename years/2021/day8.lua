@@ -1,7 +1,7 @@
 -- replace each character with its mapping,
 -- alphabetically sort the result and return
 -- as a string
-function day8_mapandsort(str, map)
+local function day8_mapandsort(str, map)
   local t = {}
   for i = 1, string.len(str) do
     t[#t + 1] = map[string.sub(str, i, i)]
@@ -14,7 +14,7 @@ function day8_mapandsort(str, map)
   return ret
 end
 
-function day8(path)
+local function day8(path)
   local lines = readLines(path)
 
   local chars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g' }

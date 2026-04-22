@@ -16,8 +16,12 @@ local function day2(path)
       local lo, hi = nums[1], nums[1]
       for i = 2, #nums do
         local v = nums[i]
-        if v < lo then lo = v end
-        if v > hi then hi = v end
+        if v < lo then
+          lo = v
+        end
+        if v > hi then
+          hi = v
+        end
       end
       part1 = part1 + (hi - lo)
 

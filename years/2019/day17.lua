@@ -244,7 +244,12 @@ local function day17(path)
   for y = 2, h - 1 do
     for x = 2, w - 1 do
       if at(rows, x, y) == '#' then
-        if is_scaffold(at(rows, x - 1, y)) and is_scaffold(at(rows, x + 1, y)) and is_scaffold(at(rows, x, y - 1)) and is_scaffold(at(rows, x, y + 1)) then
+        if
+          is_scaffold(at(rows, x - 1, y))
+          and is_scaffold(at(rows, x + 1, y))
+          and is_scaffold(at(rows, x, y - 1))
+          and is_scaffold(at(rows, x, y + 1))
+        then
           sum = sum + (x - 1) * (y - 1)
         end
       end

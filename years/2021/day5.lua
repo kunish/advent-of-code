@@ -1,12 +1,12 @@
-function day5_coord(x, y)
+local function day5_coord(x, y)
   return string.format('%d,%d', x, y)
 end
 
-function day5_contains(set, key)
+local function day5_contains(set, key)
   return set[key] ~= nil
 end
 
-function day5(path)
+local function day5(path)
   local lines = readLines(path)
 
   local min_x, max_x, min_y, max_y = -1

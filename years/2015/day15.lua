@@ -1,7 +1,8 @@
 local function parse_line(line)
   -- Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8
-  local name, cap, dur, fla, tex, cal =
-    line:match('^(%w+): capacity ([%-%d]+), durability ([%-%d]+), flavor ([%-%d]+), texture ([%-%d]+), calories ([%-%d]+)')
+  local name, cap, dur, fla, tex, cal = line:match(
+    '^(%w+): capacity ([%-%d]+), durability ([%-%d]+), flavor ([%-%d]+), texture ([%-%d]+), calories ([%-%d]+)'
+  )
   return {
     name = name,
     capacity = tonumber(cap),

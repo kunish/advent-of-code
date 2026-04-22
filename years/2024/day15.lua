@@ -1,6 +1,5 @@
 return function(path)
   local lines = readLines(path)
-  local grid_start = 1
   local moves = {}
   local blank = nil
   for i = 1, #lines do

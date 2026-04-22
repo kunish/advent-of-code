@@ -2,7 +2,7 @@ local day9_coord = day9_coord or function(x, y)
   return string.format('%d,%d', x, y)
 end
 
-function day15_risk(grid, width, height, x, y)
+local function day15_risk(grid, width, height, x, y)
   local x_div = math.floor((x - 1) / width)
   local x_mod = (x - 1) % width
   local y_div = math.floor((y - 1) / height)
@@ -12,7 +12,7 @@ function day15_risk(grid, width, height, x, y)
 end
 
 -- priority queue ordered by dist
-function day15_queue_insert(queue, val, dist)
+local function day15_queue_insert(queue, val, dist)
   local i = 1
   while i <= #queue do
     if queue[i].dist > dist then
@@ -26,7 +26,7 @@ function day15_queue_insert(queue, val, dist)
   table.insert(queue, i, entry)
 end
 
-function day15_dijkstra(grid, width, height, dest_x, dest_y)
+local function day15_dijkstra(grid, width, height, dest_x, dest_y)
   local seen = {}
   local queue = {}
   local dists = {}
@@ -79,7 +79,7 @@ function day15_dijkstra(grid, width, height, dest_x, dest_y)
   return dists[day9_coord(dest_x, dest_y)]
 end
 
-function day15(path)
+local function day15(path)
   local lines = readLines(path)
 
   local width = string.len(lines[1])

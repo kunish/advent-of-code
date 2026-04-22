@@ -151,7 +151,9 @@ local function day7(path)
         end
       end
     end
-    if all_done() and not any_busy() then break end
+    if all_done() and not any_busy() then
+      break
+    end
     for wi = 1, 5 do
       local w = workers[wi]
       if w.c ~= nil then

@@ -1,12 +1,12 @@
-function day21_key(p1, p1_score, p2, p2_score, won)
+local function day21_key(p1, p1_score, p2, p2_score, won)
   return (string.format('%d,%d,%d,%d,%d', p1, p1_score, p2, p2_score, won))
 end
 
-function day21_mod(val, modulo)
+local function day21_mod(val, modulo)
   return (((val - 1) % modulo) + 1)
 end
 
-function day21(path)
+local function day21(path)
   local lines = readLines(path)
 
   local p1_start = tonumber(string.sub(lines[1], string.len(lines[1])))

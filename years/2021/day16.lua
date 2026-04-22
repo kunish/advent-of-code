@@ -1,4 +1,4 @@
-function day16_bitaccess(str, pos)
+local function day16_bitaccess(str, pos)
   local pos_i = math.floor((pos - 1) / 4)
   local pos_b = (pos - 1) % 4
   local c = string.sub(str, pos_i + 1, pos_i + 1)
@@ -10,7 +10,7 @@ function day16_bitaccess(str, pos)
   end
 end
 
-function day16_packet(arr, start)
+local function day16_packet(arr, start)
   local packet = {}
   packet.version = day16_toint(arr, start, start + 2)
   packet.typeid = day16_toint(arr, start + 3, start + 5)
@@ -66,14 +66,14 @@ function day16_packet(arr, start)
   return packet, index
 end
 
-function day16_bit(boolval)
+local function day16_bit(boolval)
   if boolval then
     return 1
   end
   return 0
 end
 
-function day16_part1(packet)
+local function day16_part1(packet)
   local sum = packet.version
   for i = 1, #packet.children do
     sum = sum + day16_part1(packet.children[i])
@@ -81,7 +81,7 @@ function day16_part1(packet)
   return sum
 end
 
-function day16_part2(packet)
+local function day16_part2(packet)
   if packet.typeid == 0 then
     local sum = 0
     for i = 1, #packet.children do
@@ -142,7 +142,7 @@ function day16_part2(packet)
   return 0
 end
 
-function day16_toint(arr, start, finish)
+local function day16_toint(arr, start, finish)
   local length = finish - start
   if length > 31 or length < 1 then
     print('bad')
@@ -155,7 +155,7 @@ function day16_toint(arr, start, finish)
   return r
 end
 
-function day16(path)
+local function day16(path)
   local lines = readLines(path)
 
   local hex = lines[1]

@@ -132,7 +132,6 @@ local function simulate(lines, elf_power)
   local rounds = 0
   while true do
     sort_units_reading(units)
-    local saw_turn = false
     for ti = 1, #units do
       local u = units[ti]
       if u.hp <= 0 then
@@ -200,7 +199,11 @@ local function simulate(lines, elf_power)
             local key = ac.r * 65536 + ac.c
             local d = dist_u[key]
             if d then
-              if not best_target or d < best_td or (d == best_td and (ac.r < best_target.r or (ac.r == best_target.r and ac.c < best_target.c))) then
+              if
+                not best_target
+                or d < best_td
+                or (d == best_td and (ac.r < best_target.r or (ac.r == best_target.r and ac.c < best_target.c)))
+              then
                 best_td = d
                 best_target = ac
               end

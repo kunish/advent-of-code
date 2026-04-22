@@ -28,7 +28,14 @@ return function(path)
       if g[r][c] == 'X' then
         for _, d in ipairs(dirs) do
           local dr, dc = d[1], d[2]
-          if g[r + dr] and g[r + dr][c + dc] == 'M' and g[r + 2 * dr] and g[r + 2 * dr][c + 2 * dc] == 'A' and g[r + 3 * dr] and g[r + 3 * dr][c + 3 * dc] == 'S' then
+          if
+            g[r + dr]
+            and g[r + dr][c + dc] == 'M'
+            and g[r + 2 * dr]
+            and g[r + 2 * dr][c + 2 * dc] == 'A'
+            and g[r + 3 * dr]
+            and g[r + 3 * dr][c + 3 * dc] == 'S'
+          then
             part1 = part1 + 1
           end
         end

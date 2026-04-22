@@ -1,4 +1,4 @@
-function day3_process(lines, numbits, is_o2)
+local function day3_process(lines, numbits, is_o2)
   for i = 1, numbits do
     local one_count = 0
     for j = 1, #lines do
@@ -46,7 +46,7 @@ function day3_process(lines, numbits, is_o2)
   return lines
 end
 
-function day3(path)
+local function day3(path)
   local lines = readLines(path)
 
   local numbits = string.len(lines[1])

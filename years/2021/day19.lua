@@ -1,4 +1,4 @@
-function day19_matrix_mult(m1, m2)
+local function day19_matrix_mult(m1, m2)
   local result = {}
   for i = 1, #m1 do
     result[i] = {}
@@ -13,7 +13,7 @@ function day19_matrix_mult(m1, m2)
   return result
 end
 
-function day19_matrix_vector_mult(m1, v2)
+local function day19_matrix_vector_mult(m1, v2)
   local v = {}
   for i = 1, #m1 do
     v[i] = 0
@@ -25,7 +25,7 @@ function day19_matrix_vector_mult(m1, v2)
 end
 
 -- possibly quicker than actual trig
-function day19_cos(rot90)
+local function day19_cos(rot90)
   if rot90 % 4 == 0 then
     return 1
   elseif rot90 % 4 == 2 then
@@ -34,7 +34,7 @@ function day19_cos(rot90)
   return 0
 end
 
-function day19_sin(rot90)
+local function day19_sin(rot90)
   if rot90 % 4 == 1 then
     return 1
   elseif rot90 % 4 == 3 then
@@ -43,7 +43,7 @@ function day19_sin(rot90)
   return 0
 end
 
-function day19_rot_mat(x, y, z)
+local function day19_rot_mat(x, y, z)
   local sin_x = day19_sin(x)
   local cos_x = day19_cos(x)
   local x_rot = { { 1, 0, 0 }, { 0, cos_x, -sin_x }, { 0, sin_x, cos_x } }
@@ -60,17 +60,17 @@ end
 
 -- x,y,z between 0 and 3 representing 90-degree rotations about each axis
 -- v a 3-term vector
-function day19_rot(v, x, y, z)
+local function day19_rot(v, x, y, z)
   local rotation = day19_rot_mat(x, y, z)
   return day19_matrix_vector_mult(rotation, v)
 end
 
-function day19_vector_key(v, xr, yr, zr)
+local function day19_vector_key(v, xr, yr, zr)
   return string.format('%d,%d,%d|%d,%d,%d', v[1], v[2], v[3], xr, yr, zr)
 end
 
 -- given an undetermined scanner, try all rotations and attempt to match to beacons of known position
-function day19_scanner(scanners, beacons, index)
+local function day19_scanner(scanners, beacons, index)
   local vectors = {}
   local cutoff = 3 -- at 3 matches to known beacon positions, consider the beacon determined
   local beaconslist = {}
@@ -132,7 +132,7 @@ function day19_scanner(scanners, beacons, index)
   return vectors[max_key]
 end
 
-function day19(path)
+local function day19(path)
   local lines = readLines(path)
 
   local scanners = {}

@@ -30,7 +30,7 @@ local function hand_type(counts, jokers)
       return a > b
     end)
   end
-  local a, b, c, d, e = t[1] or 0, t[2] or 0, t[3] or 0, t[4] or 0, t[5] or 0
+  local a, b, c = t[1] or 0, t[2] or 0, t[3] or 0
   if a == 5 then
     return 7
   end
