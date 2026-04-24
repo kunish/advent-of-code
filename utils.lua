@@ -1,5 +1,9 @@
 local M = {}
 
+local function escape_pattern(s)
+  return (s:gsub('([%(%)%.%%%+%-%*%?%[%]%^%$])', '%%%1'))
+end
+
 ---@param file string
 M.read_lines_from = function(file)
   local lines = {}
@@ -16,8 +20,11 @@ end
 ---@param s string
 ---@param delimiter string
 M.split_string = function(s, delimiter)
+  assert(delimiter ~= '', 'delimiter must not be empty')
+
   local result = {}
-  for match in (s .. delimiter):gmatch('(.-)' .. delimiter) do
+  local escaped_delimiter = escape_pattern(delimiter)
+  for match in (s .. delimiter):gmatch('(.-)' .. escaped_delimiter) do
     table.insert(result, match)
   end
 

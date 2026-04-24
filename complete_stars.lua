@@ -10,11 +10,62 @@
 ]]
 
 local function shell_quote(s)
-  return "'" .. s:gsub("'", "'\\''") .. "'"
+  return "'" .. tostring(s):gsub("'", "'\\''") .. "'"
 end
 
-local function cookie_header(session)
-  return 'Cookie: session=' .. session
+local function curl_config_value(s)
+  return tostring(s):gsub('\\', '\\\\'):gsub('"', '\\"')
+end
+
+local function command_succeeded(ok, code)
+  return ok == true or ok == 0 or code == 0
+end
+
+local function temporary_path()
+  local p = io.popen('mktemp', 'r')
+  if p then
+    local path = p:read('*l')
+    local ok, _, code = p:close()
+    if command_succeeded(ok, code) and path and path ~= '' then
+      return path
+    end
+  end
+
+  return os.tmpname()
+end
+
+local function command_exists(cmd)
+  local ok, _, code = os.execute(string.format('command -v %s >/dev/null 2>&1', shell_quote(cmd)))
+  return command_succeeded(ok, code)
+end
+
+local function timeout_prefix(seconds)
+  if command_exists('timeout') then
+    return string.format('%s %d ', shell_quote('timeout'), seconds)
+  end
+  if command_exists('gtimeout') then
+    return string.format('%s %d ', shell_quote('gtimeout'), seconds)
+  end
+  error('missing timeout command; install coreutils for gtimeout', 0)
+end
+
+local function write_curl_session_config(session)
+  if session:find('[\r\n]') then
+    return nil
+  end
+
+  local path = temporary_path()
+  local file = io.open(path, 'w')
+  if not file then
+    os.remove(path)
+    return nil
+  end
+
+  file:write('header = "Cookie: session=', curl_config_value(session), '"\n')
+  file:close()
+  os.execute(string.format('chmod 600 %s', shell_quote(path)))
+
+  return path
 end
 
 local function enc_url(s)
@@ -25,18 +76,28 @@ end
 
 local function http_get(url, session)
   local tmp = os.tmpname()
+  local curl_config = write_curl_session_config(session)
+  if not curl_config then
+    os.remove(tmp)
+    return nil
+  end
   local cmd = string.format(
-    'curl -fsSL --max-time 60 -H %s -o %s %s',
-    shell_quote(cookie_header(session)),
+    'curl -fsSL --max-time 60 --config %s -o %s %s',
+    shell_quote(curl_config),
     shell_quote(tmp),
     shell_quote(url)
   )
-  local ok = os.execute(cmd)
-  if not ok then
+  local ok, _, code = os.execute(cmd)
+  os.remove(curl_config)
+  if not command_succeeded(ok, code) then
     os.remove(tmp)
     return nil
   end
   local f = io.open(tmp, 'r')
+  if not f then
+    os.remove(tmp)
+    return nil
+  end
   local body = f:read('*a')
   f:close()
   os.remove(tmp)
@@ -47,26 +108,41 @@ local function http_post_answer(url, session, level, answer)
   local body = string.format('level=%s&answer=%s', enc_url(level), enc_url(answer))
   local tmp_in = os.tmpname()
   local f = io.open(tmp_in, 'w')
+  if not f then
+    os.remove(tmp_in)
+    return nil
+  end
   f:write(body)
   f:close()
   local tmp_out = os.tmpname()
+  local curl_config = write_curl_session_config(session)
+  if not curl_config then
+    os.remove(tmp_in)
+    os.remove(tmp_out)
+    return nil
+  end
   local cmd = string.format(
-    'curl -fsSL --max-time 60 -X POST -H %s -H %s --data-binary @%s -o %s %s',
-    shell_quote(cookie_header(session)),
+    'curl -fsSL --max-time 60 -X POST --config %s -H %s --data-binary @%s -o %s %s',
+    shell_quote(curl_config),
     shell_quote('Content-Type: application/x-www-form-urlencoded'),
     shell_quote(tmp_in),
     shell_quote(tmp_out),
     shell_quote(url)
   )
-  local ok = os.execute(cmd)
+  local ok, _, code = os.execute(cmd)
+  os.remove(curl_config)
   os.remove(tmp_in)
-  if not ok then
+  if not command_succeeded(ok, code) then
     os.remove(tmp_out)
     return nil
   end
-  local f = io.open(tmp_out, 'r')
-  local resp = f:read('*a')
-  f:close()
+  local out_f = io.open(tmp_out, 'r')
+  if not out_f then
+    os.remove(tmp_out)
+    return nil
+  end
+  local resp = out_f:read('*a')
+  out_f:close()
   os.remove(tmp_out)
   return resp
 end
@@ -90,9 +166,15 @@ local function parse_parts(output)
   local p2 = output:match('Part 2:%s*(.-)[\r\n]')
   if p1 then
     p1 = p1:match('^%s*(.-)%s*$')
+    if p1 == '' then
+      p1 = nil
+    end
   end
   if p2 then
     p2 = p2:match('^%s*(.-)%s*$')
+    if p2 == '' then
+      p2 = nil
+    end
   end
   return p1, p2
 end
@@ -183,11 +265,27 @@ for year = from_year, to_year do
         if year == 2016 and day == 5 then
           lua_cmd = 'luajit'
         end
-        local p = io.popen(string.format('timeout 120 %s run.lua %d %d 2>&1', lua_cmd, year, day), 'r')
+        local p = io.popen(
+          string.format(
+            '%s%s %s %d %d 2>&1',
+            timeout_prefix(120),
+            shell_quote(lua_cmd),
+            shell_quote('run.lua'),
+            year,
+            day
+          ),
+          'r'
+        )
         local out = p:read('*a')
-        p:close()
+        local solver_ok, _, solver_code = p:close()
 
-        if out:find('not implemented yet', 1, true) then
+        if not command_succeeded(solver_ok, solver_code) then
+          if solver_code == 124 then
+            io.stderr:write(string.format('SKIP %d/%d: solver timed out\n', year, day))
+          else
+            io.stderr:write(string.format('SKIP %d/%d: solver failed\n', year, day))
+          end
+        elseif out:find('not implemented yet', 1, true) then
           io.stderr:write(string.format('SKIP %d/%d: solver not implemented\n', year, day))
         elseif out:find('input file missing', 1, true) then
           io.stderr:write(string.format('SKIP %d/%d: missing input (download or unlock on site)\n', year, day))
