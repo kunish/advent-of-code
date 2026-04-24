@@ -5,6 +5,8 @@ local day9_coord = day9_coord or function(x, y)
   return string.format('%d,%d', x, y)
 end
 
+local day20_imageval
+
 local function day20_9x9(image, x, y, default)
   local str = ''
   for i = y - 1, y + 1 do
@@ -21,7 +23,7 @@ local function day20_enhancexy(image, alg, x, y, default)
   return alg[index + 1]
 end
 
-local function day20_imageval(image, x, y, default)
+day20_imageval = function(image, x, y, default)
   local coord = day9_coord(x, y)
   if image[coord] == nil then
     return default or 0

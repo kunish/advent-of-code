@@ -27,6 +27,8 @@ local function day12_islower(str)
   return false
 end
 
+local day12_key
+
 local function day12_explore(state, statekey, nodes, graph, seen)
   if seen[statekey] then
     return false
@@ -88,7 +90,7 @@ local function day12_explore2(state, statekey, nodes, graph, seen, revisited)
   return true
 end
 
-local function day12_key(a, b)
+day12_key = function(a, b)
   return string.format('%s-%s', a, b)
 end
 

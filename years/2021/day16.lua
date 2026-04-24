@@ -10,6 +10,8 @@ local function day16_bitaccess(str, pos)
   end
 end
 
+local day16_toint
+
 local function day16_packet(arr, start)
   local packet = {}
   packet.version = day16_toint(arr, start, start + 2)
@@ -142,7 +144,7 @@ local function day16_part2(packet)
   return 0
 end
 
-local function day16_toint(arr, start, finish)
+day16_toint = function(arr, start, finish)
   local length = finish - start
   if length > 31 or length < 1 then
     print('bad')
