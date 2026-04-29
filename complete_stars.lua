@@ -162,8 +162,8 @@ local function stars_for_day(html, day)
 end
 
 local function parse_parts(output)
-  local p1 = output:match('Part 1:%s*(.-)[\r\n]')
-  local p2 = output:match('Part 2:%s*(.-)[\r\n]')
+  local p1 = output:match('Part 1:[ \t]*([^\r\n]*)')
+  local p2 = output:match('Part 2:[ \t]*([^\r\n]*)')
   if p1 then
     p1 = p1:match('^%s*(.-)%s*$')
     if p1 == '' then
